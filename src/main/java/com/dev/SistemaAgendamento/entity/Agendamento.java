@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+
 public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +42,53 @@ public class Agendamento {
     }
 
     public Agendamento() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
+    }
+
+    public LocalDateTime getDataHoraInicio() {
+        return dataHoraInicio;
+    }
+
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
+    }
+
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
+    }
+
+    public StatusAgendamento getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAgendamento status) {
+        this.status = status;
     }
 }

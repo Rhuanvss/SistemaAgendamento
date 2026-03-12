@@ -7,8 +7,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Getter
-@Setter
 public class Servico {
 
     @Id
@@ -31,5 +29,37 @@ public class Servico {
     }
 
     public Servico() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public Integer getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
     }
 }
