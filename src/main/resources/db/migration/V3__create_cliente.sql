@@ -1,0 +1,2 @@
+-- V3: reservado para futuras entidades de cliente/estabelecimento
+-- Tabela usuario ja criada em V1
