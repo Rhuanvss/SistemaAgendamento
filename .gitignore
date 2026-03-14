@@ -35,6 +35,3 @@ build/
 ### Environment Variables ###
 .env
 
-### agents
-AGENTS.md
-
