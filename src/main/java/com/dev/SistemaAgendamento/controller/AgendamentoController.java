@@ -20,7 +20,7 @@ public class AgendamentoController {
         this.agendamentoService = agendamentoService;
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public ResponseEntity<List<Agendamento>> listarAgendamentos() {
         return ResponseEntity.ok(agendamentoService.listarAgendamentos());
     }
@@ -30,7 +30,7 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.buscarPorId(id));
     }
 
-    @PostMapping
+    @PostMapping("/adicionar")
     public ResponseEntity<Agendamento> criarAgendamento(@RequestBody Map<String, Object> body) {
         Long clienteId = Long.valueOf(body.get("clienteId").toString());
         Long servicoId = Long.valueOf(body.get("servicoId").toString());
