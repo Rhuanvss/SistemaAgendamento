@@ -35,3 +35,6 @@ build/
 ### Environment Variables ###
 .env
 
+insomnia_sistema_agendamento.json
+REFATORACAO_IDEIA_PROJETO.md
+

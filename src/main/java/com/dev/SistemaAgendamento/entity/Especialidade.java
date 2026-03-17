@@ -1,34 +1,32 @@
 package com.dev.SistemaAgendamento.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
-public class Servico {
+public class Especialidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private BigDecimal preco;
 
-    @Column (name = "duracao_minutos", nullable = false)
+    @Column(name = "duracao_minutos", nullable = false)
     private Integer duracao;
 
-    public Servico(String nome, BigDecimal preco, Integer duracao) {
+    public Especialidade(String nome, BigDecimal preco, Integer duracao) {
         this.nome = nome;
         this.preco = preco;
         this.duracao = duracao;
     }
 
-    public Servico() {
+    public Especialidade() {
     }
 
     public Long getId() {

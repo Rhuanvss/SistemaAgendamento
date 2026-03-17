@@ -1,6 +1,6 @@
 package com.dev.SistemaAgendamento.enums;
 
-public enum StatusAgendamento {
+public enum StatusConsulta {
     PENDENTE,
     CANCELADO,
     CONFIRMADO,
