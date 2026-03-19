@@ -1,4 +1,5 @@
-# 🏥 Sistema de Agendamento Médico
+# SistemaAgendamento
+- Erro de regra de negocio (`400`/`409`): verifique status da consulta e vinculo medico-especialidade
 
 ![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen?style=for-the-badge&logo=spring)
