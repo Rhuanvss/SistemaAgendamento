@@ -1,8 +1,8 @@
 const cores = {
-  PENDENTE:   "bg-amber-100 text-amber-800",
-  CONFIRMADO: "bg-blue-100 text-blue-800",
-  CONCLUIDO:  "bg-green-100 text-green-800",
-  CANCELADO:  "bg-red-100 text-red-800",
+  PENDENTE:   "bg-amber-50 text-amber-700 border border-amber-200/60",
+  CONFIRMADO: "bg-blue-50 text-blue-700 border border-blue-200/60",
+  CONCLUIDO:  "bg-emerald-50 text-emerald-700 border border-emerald-200/60",
+  CANCELADO:  "bg-red-50 text-red-700 border border-red-200/60",
 };
 
 const labels = {
@@ -12,9 +12,18 @@ const labels = {
   CANCELADO: "Cancelado",
 };
 
+const dots = {
+  PENDENTE: "bg-amber-500",
+  CONFIRMADO: "bg-blue-500",
+  CONCLUIDO: "bg-emerald-500",
+  CANCELADO: "bg-red-500",
+}
+
 export default function StatusBadge({ status }) {
+  const currentStatus = cores[status] ? status : 'PENDENTE';
   return (
-    <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${cores[status] ?? "bg-gray-100 text-gray-700"}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${cores[currentStatus]}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${dots[currentStatus]}`}></span>
       {labels[status] ?? status}
     </span>
   );

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Layout from "./components/Layout";
 import Consultas from "./pages/Consultas";
 import Medicos from "./pages/Medicos";
@@ -9,6 +10,7 @@ import Prontuarios from "./pages/Prontuarios";
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <Layout>
         <Routes>
           <Route path="/" element={<Navigate to="/consultas" replace />} />
