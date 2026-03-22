@@ -5,8 +5,11 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-brightgreen?style=for-the-badge&logo=spring)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 
-Uma API REST robusta desenvolvida com **Spring Boot** e **Java 21** para o gerenciamento completo de clínicas médicas. O sistema controla todo o fluxo de atendimento, desde o cadastro de pacientes e médicos até a conclusão de consultas e geração de prontuários, garantindo a integridade dos dados com rigorosas validações de negócio.
+Um sistema completo para o gerenciamento de clínicas médicas. O backend é uma API REST robusta desenvolvida com **Spring Boot** e **Java 21**, enquanto o frontend é uma interface moderna e responsiva construída com **React**, **Vite** e **Tailwind CSS**. O sistema controla todo o fluxo de atendimento, desde o cadastro de pacientes e médicos até a conclusão de consultas e geração de prontuários, garantindo a integridade dos dados com rigorosas validações de negócio.
 
 ---
 
@@ -22,14 +25,24 @@ Uma API REST robusta desenvolvida com **Spring Boot** e **Java 21** para o geren
 
 ## 🛠️ Tecnologias e Ferramentas
 
+### Backend
 - **Linguagem:** Java 21
 - **Framework:** Spring Boot (Web, Data JPA, Validation)
 - **Banco de Dados:** PostgreSQL 16
 - **Migrations:** Flyway
-- **Infraestrutura:** Docker & Docker Compose
-- **Build & Dependências:** Maven
-- **Utilitários:** Lombok
 - **Testes:** JUnit 5 / Mockito
+
+### Frontend
+- **Framework:** React 18+
+- **Bundler:** Vite
+- **Estilização:** Tailwind CSS
+- **Ícones e Alertas:** Lucide React, React Hot Toast
+- **Roteamento:** React Router DOM
+- **Formulários:** React Hook Form
+
+### Infraestrutura
+- **Containers:** Docker & Docker Compose
+- **Build:** Maven / npm
 
 ---
 
@@ -50,12 +63,20 @@ O sistema foi arquitetado para modelar com precisão os processos de uma clínic
 - *(Opcional)* Java 21 e PostgreSQL caso deseje rodar a aplicação nativamente fora dos containers.
 
 ### Opção 1: Via Docker (Recomendado)
-A maneira mais rápida de testar o sistema. Suba a aplicação e o banco de dados simultaneamente:
+A maneira mais rápida de testar o backend e o banco de dados simultaneamente:
 
 ```bash
 docker-compose up -d
 ```
 A API estará acessível em: `http://localhost:8080`
+
+Para o frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Acesse o sistema em: `http://localhost:5173`
 
 ### Opção 2: Desenvolvimento Local (Híbrido)
 Ideal para desenvolver e debugar na sua IDE favorita, usando o Docker apenas para o banco de dados:
@@ -64,9 +85,15 @@ Ideal para desenvolver e debugar na sua IDE favorita, usando o Docker apenas par
 ```bash
 docker-compose up -d postgres
 ```
-2. Execute a aplicação via Maven Wrapper:
+2. Execute a aplicação Backend via Maven Wrapper:
 ```bash
 ./mvnw spring-boot:run
+```
+3. Execute o Frontend em um novo terminal:
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
 ---
