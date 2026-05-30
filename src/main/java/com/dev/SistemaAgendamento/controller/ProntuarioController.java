@@ -7,6 +7,7 @@ import com.dev.SistemaAgendamento.service.ProntuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProntuarioController {
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDICO')")
     public ResponseEntity<List<ProntuarioResponseDTO>> listarProntuarios() {
         List<ProntuarioResponseDTO> prontuarios = prontuarioService.listarProntuarios().stream()
                 .map(this::toResponseDTO)
@@ -30,12 +32,14 @@ public class ProntuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDICO')")
     public ResponseEntity<ProntuarioResponseDTO> buscarPorId(@PathVariable Long id) {
         Prontuario prontuario = prontuarioService.buscarPorId(id);
         return ResponseEntity.ok(toResponseDTO(prontuario));
     }
 
     @PostMapping("/adicionar")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDICO')")
     public ResponseEntity<ProntuarioResponseDTO> criarProntuario(@RequestBody @Valid ProntuarioRequestDTO dto) {
         Prontuario prontuario = prontuarioService.criarProntuario(
             dto.consultaId(), 
@@ -47,6 +51,7 @@ public class ProntuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarProntuario(@PathVariable Long id) {
         prontuarioService.deletarProntuario(id);
         return ResponseEntity.noContent().build();

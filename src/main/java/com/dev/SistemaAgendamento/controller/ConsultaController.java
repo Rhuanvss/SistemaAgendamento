@@ -13,6 +13,7 @@ import com.dev.SistemaAgendamento.service.ConsultaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class ConsultaController {
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<List<ConsultaResponseDTO>> listarConsultas() {
         List<ConsultaResponseDTO> consultas = consultaService.listarConsultas().stream()
                 .map(this::toResponseDTO)
@@ -38,12 +40,14 @@ public class ConsultaController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<ConsultaResponseDTO> buscarPorId(@PathVariable Long id) {
         Consulta consulta = consultaService.buscarPorId(id);
         return ResponseEntity.ok(toResponseDTO(consulta));
     }
 
     @PostMapping("/adicionar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO')")
     public ResponseEntity<ConsultaResponseDTO> criarConsulta(@RequestBody @Valid ConsultaRequestDTO dto) {
         Consulta consulta = consultaService.criarConsulta(
             dto.pacienteId(), 
@@ -55,21 +59,25 @@ public class ConsultaController {
     }
 
     @PatchMapping("/{id}/confirmar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO')")
     public ResponseEntity<ConsultaResponseDTO> confirmarConsulta(@PathVariable Long id) {
         return ResponseEntity.ok(toResponseDTO(consultaService.confirmarConsulta(id)));
     }
 
     @PatchMapping("/{id}/concluir")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDICO')")
     public ResponseEntity<ConsultaResponseDTO> concluirConsulta(@PathVariable Long id) {
         return ResponseEntity.ok(toResponseDTO(consultaService.concluirConsulta(id)));
     }
 
     @PatchMapping("/{id}/cancelar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO')")
     public ResponseEntity<ConsultaResponseDTO> cancelarConsulta(@PathVariable Long id) {
         return ResponseEntity.ok(toResponseDTO(consultaService.cancelarConsulta(id)));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarConsulta(@PathVariable Long id) {
         consultaService.deletarConsulta(id);
         return ResponseEntity.noContent().build();

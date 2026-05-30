@@ -7,6 +7,7 @@ import com.dev.SistemaAgendamento.service.EspecialidadeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class EspecialidadeController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<List<EspecialidadeResponseDTO>> listarEspecialidades() {
         List<EspecialidadeResponseDTO> especialidades = especialidadeService.listarEspecialidades().stream()
                 .map(this::toResponseDTO)
@@ -30,12 +32,14 @@ public class EspecialidadeController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<EspecialidadeResponseDTO> buscarPorId(@PathVariable Long id) {
         Especialidade especialidade = especialidadeService.buscarPorId(id);
         return ResponseEntity.ok(toResponseDTO(especialidade));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EspecialidadeResponseDTO> salvarEspecialidade(@RequestBody @Valid EspecialidadeRequestDTO dto) {
         Especialidade especialidade = toEntity(dto);
         Especialidade salva = especialidadeService.salvarEspecialidade(especialidade);
@@ -43,6 +47,7 @@ public class EspecialidadeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarEspecialidade(@PathVariable Long id) {
         especialidadeService.deletarEspecialidade(id);
         return ResponseEntity.noContent().build();

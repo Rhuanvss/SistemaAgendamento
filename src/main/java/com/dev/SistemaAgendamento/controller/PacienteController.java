@@ -7,6 +7,7 @@ import com.dev.SistemaAgendamento.service.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class PacienteController {
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<List<PacienteResponseDTO>> listarPacientes() {
         List<PacienteResponseDTO> pacientes = pacienteService.listarPacientes().stream()
                 .map(this::toResponseDTO)
@@ -30,12 +32,14 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<PacienteResponseDTO> buscarPorId(@PathVariable Long id) {
         Paciente paciente = pacienteService.buscarPorId(id);
         return ResponseEntity.ok(toResponseDTO(paciente));
     }
 
     @PostMapping("/adicionar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO')")
     public ResponseEntity<PacienteResponseDTO> salvarPaciente(@RequestBody @Valid PacienteRequestDTO dto) {
         Paciente paciente = toEntity(dto);
         Paciente salvo = pacienteService.salvarPaciente(paciente);
@@ -43,6 +47,7 @@ public class PacienteController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarPaciente(@PathVariable Long id) {
         pacienteService.deletarPaciente(id);
         return ResponseEntity.noContent().build();

@@ -10,6 +10,7 @@ import com.dev.SistemaAgendamento.service.MedicoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class MedicoController {
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<List<MedicoResponseDTO>> listarMedicos() {
         List<MedicoResponseDTO> medicos = medicoService.listarMedicos().stream()
                 .map(this::toResponseDTO)
@@ -37,12 +39,14 @@ public class MedicoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','RECEPCAO','MEDICO')")
     public ResponseEntity<MedicoResponseDTO> buscarPorId(@PathVariable Long id) {
         Medico medico = medicoService.buscarPorId(id);
         return ResponseEntity.ok(toResponseDTO(medico));
     }
 
     @PostMapping("/adicionar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MedicoResponseDTO> salvarMedico(@RequestBody @Valid MedicoRequestDTO dto) {
         Medico medico = toEntity(dto);
         Medico salvo = medicoService.salvarMedico(medico);
@@ -50,6 +54,7 @@ public class MedicoController {
     }
 
     @PostMapping("/{id}/especialidade")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MedicoResponseDTO> adicionarEspecialidade(@PathVariable Long id,
                                                           @RequestBody Map<String, Object> body) {
         Long especialidadeId = Long.valueOf(body.get("especialidadeId").toString());
@@ -59,6 +64,7 @@ public class MedicoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarMedico(@PathVariable Long id) {
         medicoService.deletarMedico(id);
         return ResponseEntity.noContent().build();
