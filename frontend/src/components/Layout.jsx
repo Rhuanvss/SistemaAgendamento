@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { Calendar, Users, UserRound, Stethoscope, FileText, Activity } from "lucide-react";
+import { Calendar, Users, UserRound, Stethoscope, FileText, Activity, LogOut } from "lucide-react";
+import { logout } from "../api/auth";
 
 const navItems = [
   { to: "/consultas",     label: "Consultas",      icon: Calendar },
@@ -10,6 +11,11 @@ const navItems = [
 ];
 
 export default function Layout({ children }) {
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50 text-left font-sans">
       <aside className="w-64 bg-white border-r border-gray-200 flex flex-col py-6 px-4 gap-2 shadow-sm z-10">
@@ -41,6 +47,14 @@ export default function Layout({ children }) {
             );
           })}
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="mt-auto flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
+        >
+          <LogOut className="w-4 h-4" />
+          Sair
+        </button>
       </aside>
       
       <main className="flex-1 p-8 lg:p-10 max-w-7xl mx-auto w-full">

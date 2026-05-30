@@ -1,25 +1,11 @@
-const BASE = "http://localhost:8080/api";
+import { apiRequest } from "./http";
 
-async function handleResponse(res) {
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Erro desconhecido");
-  }
-  return res.status === 204 ? null : res.json();
-}
+export const listarPacientes = () => apiRequest("/paciente/listar");
 
-export const listarPacientes = () =>
-  fetch(`${BASE}/paciente/listar`).then(handleResponse);
-
-export const buscarPaciente = (id) =>
-  fetch(`${BASE}/paciente/${id}`).then(handleResponse);
+export const buscarPaciente = (id) => apiRequest(`/paciente/${id}`);
 
 export const criarPaciente = (dados) =>
-  fetch(`${BASE}/paciente/adicionar`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  }).then(handleResponse);
+  apiRequest("/paciente/adicionar", { method: "POST", body: dados });
 
 export const deletarPaciente = (id) =>
-  fetch(`${BASE}/paciente/${id}`, { method: "DELETE" }).then(handleResponse);
+  apiRequest(`/paciente/${id}`, { method: "DELETE" });

@@ -1,25 +1,11 @@
-const BASE = "http://localhost:8080/api";
+import { apiRequest } from "./http";
 
-async function handleResponse(res) {
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Erro desconhecido");
-  }
-  return res.status === 204 ? null : res.json();
-}
+export const listarProntuarios = () => apiRequest("/prontuario/listar");
 
-export const listarProntuarios = () =>
-  fetch(`${BASE}/prontuario/listar`).then(handleResponse);
-
-export const buscarProntuario = (id) =>
-  fetch(`${BASE}/prontuario/${id}`).then(handleResponse);
+export const buscarProntuario = (id) => apiRequest(`/prontuario/${id}`);
 
 export const criarProntuario = (dados) =>
-  fetch(`${BASE}/prontuario/adicionar`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  }).then(handleResponse);
+  apiRequest("/prontuario/adicionar", { method: "POST", body: dados });
 
 export const deletarProntuario = (id) =>
-  fetch(`${BASE}/prontuario/${id}`, { method: "DELETE" }).then(handleResponse);
+  apiRequest(`/prontuario/${id}`, { method: "DELETE" });

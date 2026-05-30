@@ -31,6 +31,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sistema_agendamento
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin123
+      ADMIN_EMAIL: admin@local
+      ADMIN_PASSWORD: admin123
     depends_on:
       postgres:
         condition: service_healthy

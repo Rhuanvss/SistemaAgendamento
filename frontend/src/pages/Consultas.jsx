@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Plus, Check, XSquare, CheckCircle, Eye } from "lucide-react";
+import { Plus, Check, XSquare, CheckCircle, Eye, Calendar } from "lucide-react";
 import { listarConsultas, criarConsulta, confirmarConsulta, concluirConsulta, cancelarConsulta } from "../api/consultas";
 import { listarPacientes } from "../api/pacientes";
 import { listarMedicos } from "../api/medicos";

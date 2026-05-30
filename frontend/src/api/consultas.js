@@ -1,34 +1,20 @@
-const BASE = "http://localhost:8080/api";
+import { apiRequest } from "./http";
 
-async function handleResponse(res) {
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Erro desconhecido");
-  }
-  return res.status === 204 ? null : res.json();
-}
+export const listarConsultas = () => apiRequest("/consulta/listar");
 
-export const listarConsultas = () =>
-  fetch(`${BASE}/consulta/listar`).then(handleResponse);
-
-export const buscarConsulta = (id) =>
-  fetch(`${BASE}/consulta/${id}`).then(handleResponse);
+export const buscarConsulta = (id) => apiRequest(`/consulta/${id}`);
 
 export const criarConsulta = (dados) =>
-  fetch(`${BASE}/consulta/adicionar`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  }).then(handleResponse);
+  apiRequest("/consulta/adicionar", { method: "POST", body: dados });
 
 export const confirmarConsulta = (id) =>
-  fetch(`${BASE}/consulta/${id}/confirmar`, { method: "PATCH" }).then(handleResponse);
+  apiRequest(`/consulta/${id}/confirmar`, { method: "PATCH" });
 
 export const concluirConsulta = (id) =>
-  fetch(`${BASE}/consulta/${id}/concluir`, { method: "PATCH" }).then(handleResponse);
+  apiRequest(`/consulta/${id}/concluir`, { method: "PATCH" });
 
 export const cancelarConsulta = (id) =>
-  fetch(`${BASE}/consulta/${id}/cancelar`, { method: "PATCH" }).then(handleResponse);
+  apiRequest(`/consulta/${id}/cancelar`, { method: "PATCH" });
 
 export const deletarConsulta = (id) =>
-  fetch(`${BASE}/consulta/${id}`, { method: "DELETE" }).then(handleResponse);
+  apiRequest(`/consulta/${id}`, { method: "DELETE" });
