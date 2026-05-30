@@ -20,6 +20,7 @@ Um sistema completo para o gerenciamento de clínicas médicas. O backend é uma
 - **Agendamento Inteligente:** Criação de consultas com validação automática de disponibilidade de agenda e compatibilidade de especialidade do médico.
 - **Máquina de Estados de Consultas:** Transições seguras de status (`PENDENTE` ➔ `CONFIRMADO` ➔ `CONCLUIDO` ou `CANCELADO`).
 - **Prontuários Eletrônicos:** Emissão restrita e segura de prontuários, permitida apenas após a conclusão efetiva do atendimento médico.
+- **Autenticação JWT e Roles:** Acesso protegido por perfis (`ADMIN`, `MEDICO`, `RECEPCAO`) com login no frontend.
 
 ---
 
@@ -30,6 +31,7 @@ Um sistema completo para o gerenciamento de clínicas médicas. O backend é uma
 - **Framework:** Spring Boot (Web, Data JPA, Validation)
 - **Banco de Dados:** PostgreSQL 16
 - **Migrations:** Flyway
+- **Segurança:** Spring Security + JWT
 - **Testes:** JUnit 5 / Mockito
 
 ### Frontend
@@ -39,6 +41,7 @@ Um sistema completo para o gerenciamento de clínicas médicas. O backend é uma
 - **Ícones e Alertas:** Lucide React, React Hot Toast
 - **Roteamento:** React Router DOM
 - **Formulários:** React Hook Form
+- **Autenticação:** Login com JWT
 
 ### Infraestrutura
 - **Containers:** Docker & Docker Compose
@@ -78,6 +81,11 @@ npm run dev
 ```
 Acesse o sistema em: `http://localhost:5173`
 
+#### Credenciais iniciais (Docker)
+O Docker Compose cria um admin automaticamente:
+- **Email:** `admin@local`
+- **Senha:** `admin123`
+
 ### Opção 2: Desenvolvimento Local (Híbrido)
 Ideal para desenvolver e debugar na sua IDE favorita, usando o Docker apenas para o banco de dados:
 
@@ -95,6 +103,19 @@ cd frontend
 npm install
 npm run dev
 ```
+
+---
+
+## 🔐 Autenticação
+
+- **Login:** `POST /api/auth/login`
+- **Protegido:** todos os endpoints de `/api/**` exigem `Authorization: Bearer <token>`
+- **Frontend:** use `http://localhost:5173/login` para autenticar e navegar
+
+Perfis utilizados:
+- `ADMIN`
+- `MEDICO`
+- `RECEPCAO`
 
 ---
 
