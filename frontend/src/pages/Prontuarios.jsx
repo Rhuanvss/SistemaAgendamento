@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Plus, Eye, FileText, ClipboardList } from "lucide-react";
+import { Plus, Eye, FileText, ClipboardList, Activity } from "lucide-react";
 import { listarProntuarios, criarProntuario } from "../api/prontuarios";
 import { listarConsultas } from "../api/consultas";
 import Modal from "../components/Modal";
 import ErrorMessage from "../components/ErrorMessage";
+
+const formatarDataHora = (valor) => {
+  if (!valor) return "";
+  const data = new Date(valor);
+  if (Number.isNaN(data.getTime())) return "";
+  return data.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 export default function Prontuarios() {
   const [dados, setDados] = useState([]);
@@ -92,6 +105,9 @@ export default function Prontuarios() {
               <thead className="bg-gray-50/80 border-b border-gray-200 text-gray-600 uppercase tracking-wider text-xs font-semibold">
                 <tr>
                   <th className="px-6 py-4 w-32">Consulta ID</th>
+                  <th className="px-6 py-4">Paciente</th>
+                  <th className="px-6 py-4">Médico</th>
+                  <th className="px-6 py-4">Data da Consulta</th>
                   <th className="px-6 py-4">Diagnóstico Resumido</th>
                   <th className="px-6 py-4 text-right">Ações</th>
                 </tr>
@@ -103,6 +119,15 @@ export default function Prontuarios() {
                       <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 text-gray-700 font-mono text-xs font-medium">
                         #{pront.consultaId}
                       </div>
+                    </td>
+                    <td className="px-6 py-4 text-gray-600">
+                      {pront.paciente?.nome ?? "-"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-600">
+                      {pront.medico?.nome ?? "-"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-600 font-mono text-xs">
+                      {formatarDataHora(pront.dataConsulta) || "-"}
                     </td>
                     <td className="px-6 py-4 text-gray-600">
                       <div className="flex items-center gap-2">
@@ -124,7 +149,7 @@ export default function Prontuarios() {
                 ))}
                 {dados.length === 0 && (
                   <tr>
-                    <td colSpan="3" className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center">
                           <ClipboardList className="w-8 h-8 text-gray-300" />
@@ -185,6 +210,30 @@ export default function Prontuarios() {
       {showDetalhesModal && prontuarioSelecionado && (
         <Modal title={`Prontuário da Consulta #${prontuarioSelecionado.consultaId}`} onClose={() => setShowDetalhesModal(false)}>
           <div className="space-y-5 text-left bg-gray-50/50 p-1 rounded-lg">
+            <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <ClipboardList className="w-4 h-4 text-gray-500" />
+                <h3 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">Identificação</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
+                <div>
+                  <span className="font-semibold">Paciente: </span>
+                  <span>{prontuarioSelecionado.paciente?.nome ?? "-"}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Médico: </span>
+                  <span>{prontuarioSelecionado.medico?.nome ?? "-"}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Consulta: </span>
+                  <span>#{prontuarioSelecionado.consultaId ?? "-"}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Data: </span>
+                  <span>{formatarDataHora(prontuarioSelecionado.dataConsulta) || "-"}</span>
+                </div>
+              </div>
+            </div>
             <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
                 <FileText className="w-4 h-4 text-blue-600" />

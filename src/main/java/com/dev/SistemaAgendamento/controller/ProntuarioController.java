@@ -2,6 +2,8 @@ package com.dev.SistemaAgendamento.controller;
 
 import com.dev.SistemaAgendamento.dto.request.ProntuarioRequestDTO;
 import com.dev.SistemaAgendamento.dto.response.ProntuarioResponseDTO;
+import com.dev.SistemaAgendamento.dto.response.PacienteResumoDTO;
+import com.dev.SistemaAgendamento.dto.response.MedicoResumoDTO;
 import com.dev.SistemaAgendamento.entity.Prontuario;
 import com.dev.SistemaAgendamento.service.ProntuarioService;
 import jakarta.validation.Valid;
@@ -59,9 +61,30 @@ public class ProntuarioController {
 
     private ProntuarioResponseDTO toResponseDTO(Prontuario prontuario) {
         Long consultaId = prontuario.getConsulta() != null ? prontuario.getConsulta().getId() : null;
+        PacienteResumoDTO paciente = null;
+        MedicoResumoDTO medico = null;
+        java.time.LocalDateTime dataConsulta = null;
+        if (prontuario.getConsulta() != null) {
+            if (prontuario.getConsulta().getPaciente() != null) {
+                paciente = new PacienteResumoDTO(
+                        prontuario.getConsulta().getPaciente().getId(),
+                        prontuario.getConsulta().getPaciente().getNome()
+                );
+            }
+            if (prontuario.getConsulta().getMedico() != null) {
+                medico = new MedicoResumoDTO(
+                        prontuario.getConsulta().getMedico().getId(),
+                        prontuario.getConsulta().getMedico().getNome()
+                );
+            }
+            dataConsulta = prontuario.getConsulta().getDataHoraInicio();
+        }
         return new ProntuarioResponseDTO(
                 prontuario.getId(),
                 consultaId,
+                paciente,
+                medico,
+                dataConsulta,
                 prontuario.getDescricao(),
                 prontuario.getDiagnostico(),
                 prontuario.getPrescricao()
