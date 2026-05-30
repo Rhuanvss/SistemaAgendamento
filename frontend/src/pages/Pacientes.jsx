@@ -12,7 +12,7 @@ export default function Pacientes() {
   const [erro, setErro] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
+  const { register, handleSubmit, reset, formState: { isSubmitting, errors } } = useForm();
 
   const carregar = () => {
     setLoading(true);
@@ -32,8 +32,12 @@ export default function Pacientes() {
 
   const onSubmit = (data) => {
     setErro(null);
+    const payload = {
+      ...data,
+      cpf: data.cpf ? data.cpf.replace(/\D/g, "") : data.cpf,
+    };
     const toastId = toast.loading("Salvando paciente...");
-    criarPaciente(data)
+    criarPaciente(payload)
       .then(() => {
         toast.success("Paciente cadastrado com sucesso!", { id: toastId });
         setShowModal(false);
@@ -153,8 +157,18 @@ export default function Pacientes() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">CPF</label>
-                <input {...register("cpf", { required: true, pattern: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/ })} className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow font-mono text-sm" placeholder="000.000.000-00" />
-                <p className="text-xs text-gray-400 mt-1">Formato: 000.000.000-00</p>
+                <input
+                  {...register("cpf", {
+                    required: "CPF e obrigatorio",
+                  })}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow font-mono text-sm"
+                  placeholder="000.000.000-00"
+                />
+                {errors.cpf ? (
+                  <p className="text-xs text-red-600 mt-1">{errors.cpf.message}</p>
+                ) : (
+                  <p className="text-xs text-gray-400 mt-1">Aceita qualquer formato</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento</label>

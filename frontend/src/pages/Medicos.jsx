@@ -38,11 +38,17 @@ export default function Medicos() {
     carregar();
   }, []);
 
+  const normalizarEspecialidadesIds = (value) => {
+    if (!value) return [];
+    if (Array.isArray(value)) return value.map(Number);
+    return [Number(value)];
+  };
+
   const onSubmit = (data) => {
     setErro(null);
     const payload = {
       ...data,
-      especialidadesIds: data.especialidadesIds ? data.especialidadesIds.map(Number) : []
+      especialidadesIds: normalizarEspecialidadesIds(data.especialidadesIds)
     };
     if (payload.especialidadesIds.length === 0) {
       setErro("Selecione pelo menos uma especialidade.");
@@ -61,6 +67,10 @@ export default function Medicos() {
         setErro(e.message);
         toast.error("Erro ao cadastrar", { id: toastId });
       });
+  };
+
+  const onSubmitError = () => {
+    setErro("Preencha todos os campos obrigatorios.");
   };
 
   const onAddEspecialidade = (data) => {
@@ -186,7 +196,7 @@ export default function Medicos() {
       {showModal && (
         <Modal title="Novo Médico" onClose={() => setShowModal(false)}>
           <ErrorMessage message={erro} />
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4 text-left">
+          <form onSubmit={handleSubmit(onSubmit, onSubmitError)} className="space-y-4 mt-4 text-left">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
               <input {...register("nome", { required: true })} className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow" placeholder="Ex: Dr. João Silva" />

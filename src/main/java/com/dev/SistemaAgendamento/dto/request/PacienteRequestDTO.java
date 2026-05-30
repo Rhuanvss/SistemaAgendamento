@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
@@ -24,6 +23,5 @@ public record PacienteRequestDTO(
     LocalDate dataNascimento,
 
     @NotBlank(message = "O CPF é obrigatório")
-    @CPF(message = "CPF com formato inválido")
     String cpf
 ) {}
